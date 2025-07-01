@@ -32,7 +32,7 @@ const login = () => {
                 router.push("/")
             }
             else
-                alert(response.data.Message);
+                alert(response.data);
         } catch (error) {
             console.log('Error: ', error);
             alert(error.response.data);

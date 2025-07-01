@@ -59,14 +59,14 @@ public class UserController {
         Map<String, Object> response = new HashMap<>();
         if (username == null || password == null || username.isEmpty() || password.isEmpty()) {
             response.put("Message", "username and password are required!");
-            return ResponseEntity.status(409).body(response);
+            return ResponseEntity.status(200).body(response);
         }
 
         User existingUser = repo.findByUsername(username).orElse(null);
 
         if (existingUser != null) {
             response.put("Message", "User already exists with same username!");
-            return ResponseEntity.status(409).body(response);
+            return ResponseEntity.status(200).body(response);
         }
 
         User newuser = new User();
@@ -95,15 +95,15 @@ public class UserController {
         User existingUser = repo.findByUsername(user.getUsername()).orElse(null);
 
         if (user.getUsername() == null || user.getPassword() == null) {
-            return ResponseEntity.status(409).body("Username and password are required!");
+            return ResponseEntity.status(200).body("Username and password are required!");
         }
 
         if (existingUser == null) {
-            return ResponseEntity.status(409).body("User doesn't exists!");
+            return ResponseEntity.status(200).body("User doesn't exists!");
         }
 
         if (!existingUser.getPassword().equals(user.getPassword())) {
-            return ResponseEntity.status(409).body("Incorrect password!");
+            return ResponseEntity.status(200).body("Incorrect password!");
         }
 
         Map<String, String> response = new HashMap<>();
@@ -121,7 +121,7 @@ public class UserController {
         User existingUser = repo.findById(id).orElse(null);
 
         if (existingUser == null) {
-            return ResponseEntity.status(409).body("User doesn't exists!");
+            return ResponseEntity.status(200).body("User doesn't exists!");
         }
 
         review.setUserId(id);
@@ -152,12 +152,12 @@ public class UserController {
         User existingUser = repo.findById(id).orElse(null);
 
         if (existingUser == null) {
-            return ResponseEntity.status(409).body("User doesn't exists!");
+            return ResponseEntity.status(200).body("User doesn't exists!");
         }
 
         Review review = revrepo.findById(reviewId).orElse(null);
         if (review == null) {
-            return ResponseEntity.status(409).body("Review doesn't exists!");
+            return ResponseEntity.status(200).body("Review doesn't exists!");
         }
 
         List<String> reviews = existingUser.getReviews();
@@ -180,7 +180,7 @@ public class UserController {
         if (existingUser == null) {
             Map<String, String> response = new HashMap<>();
             response.put("Message","User doesn't exists!");
-            return ResponseEntity.status(409).body(response);
+            return ResponseEntity.status(200).body(response);
         }
 
         // coz in ReviewRepository.java file, we have mentioned
@@ -233,18 +233,18 @@ public class UserController {
         Map<String, String> response = new HashMap<>();
 
         if (user == null) {
-            response.put("Error", "User does not exists!");
-            return ResponseEntity.status(409).body(response);
+            response.put("Message", "Please Login (or) User does not exists!");
+            return ResponseEntity.status(200).body(response);
         }
 
         if (friend == null) {
-            response.put("Error", "Friend does not exists!");
-            return ResponseEntity.status(409).body(response);
+            response.put("Message", "Friend does not exists!");
+            return ResponseEntity.status(200).body(response);
         }
 
         if (user.getId().equals(friend.getId())) {
-            response.put("Error", "You can't add yourself!");
-            return ResponseEntity.status(409).body(response);
+            response.put("Message", "You can't add yourself!");
+            return ResponseEntity.status(200).body(response);
         }
 
         List<String> friends = user.getFriends();
@@ -255,7 +255,7 @@ public class UserController {
             friend.getFriends().remove(id);
             repo.save(user);
             repo.save(friend);
-            response.put("Message", "Friend deleted successfully");
+            response.put("Message", "Friend removed successfully");
             return ResponseEntity.status(200).body(response);
         }
 
@@ -276,7 +276,7 @@ public class UserController {
         Map<String, Object> response = new HashMap<>();
         if (existingUser == null) {
             response.put("Error", "User does not exists!");
-            return ResponseEntity.status(409).body(response);
+            return ResponseEntity.status(200).body(response);
         }
 
         response.put("Message", existingUser);

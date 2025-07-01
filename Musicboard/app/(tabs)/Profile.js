@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, SafeAreaView, Image, StatusBar, TouchableOpacity, Platform } from 'react-native'
+import { StyleSheet, Text, View, SafeAreaView, Image, StatusBar, TouchableOpacity, Platform, ScrollView } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import AsyncStorage from '@react-native-async-storage/async-storage'
@@ -13,6 +13,7 @@ const Profile = () => {
     const [user, setUser] = useState({});
     const [ratings, setRatings] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [globalId, setGlobalId] = useState('');
     const API_URL = Constants.expoConfig.extra.API_URL;
 
     const [isl, setIsl] = useState(false);
@@ -51,31 +52,22 @@ const Profile = () => {
                 try {
                     const userId = await AsyncStorage.getItem("userId");
                     if (!userId) return;
+                    setGlobalId(userId);
                     const response = await axios.get(`${API_URL}/${userId}/reviews`)
                     console.log('Response: ', response.data);
                     if (response.data.Message === "User does not exists!") {
                         setIsl(false);
                         return;
                     }
-                    setRatings(response.data || []);
-                    if (!Array.isArray(response.data)) {
-                        console.error("Invalid response format:", response.data);
+                    setRatings(response.data.reviews || []);
+                    if (!Array.isArray(response.data.reviews)) {
+                        console.error("Invalid response format:", response.data.reviews);
                         setRatings([]);
                         return;
                     }
                     // Use Promise.all to resolve all album requests in parallel
-                    const albums = await Promise.all(
-                        response.data.map(async (item) => {
-                            const data = await getAlbumsInfo(item.spotifyId, item.type);
-                            return {
-                                ...item,
-                                type: item.type,
-                                dp: (item.type === 'album') ? data?.images[0]?.url : data?.album.images[0].url,
-                                albumName: data?.name || 'Unknown',
-                            };
-                        }))
-
-                    setRatings(albums.sort((a, b) => new Date(b.date) - new Date(a.date)));
+                    const albums = response.data.reviews.filter((review) => review.userId === userId).sort((a, b) => new Date(b.date) - new Date(a.date));
+                    setRatings(albums.slice(0, 3));
                 } catch (error) {
                     console.log('Error: ', error);
                     alert(error)
@@ -85,35 +77,35 @@ const Profile = () => {
                 }
             }
 
-            const getAlbumsInfo = async (spotifyId, type) => {
-                setLoading(true)
-                const token = await AsyncStorage.getItem('token');
-                console.log('Album ID: ', spotifyId)
-                try {
-                    let response = '';
-                    if (type === 'album') {
-                        response = await axios.get(`https://api.spotify.com/v1/albums/${spotifyId}`, {
-                            headers: {
-                                'Authorization': `Bearer ${token}`
-                            }
-                        })
-                    }
-                    else if (type === 'track') {
-                        response = await axios.get(`https://api.spotify.com/v1/tracks/${spotifyId}`, {
-                            headers: {
-                                'Authorization': `Bearer ${token}`
-                            }
-                        })
-                    }
-                    return response.data
+            // const getAlbumsInfo = async (spotifyId, type) => {
+            //     setLoading(true)
+            //     const token = await AsyncStorage.getItem('token');
+            //     console.log('Album ID: ', spotifyId)
+            //     try {
+            //         let response = '';
+            //         if (type === 'album') {
+            //             response = await axios.get(`https://api.spotify.com/v1/albums/${spotifyId}`, {
+            //                 headers: {
+            //                     'Authorization': `Bearer ${token}`
+            //                 }
+            //             })
+            //         }
+            //         else if (type === 'track') {
+            //             response = await axios.get(`https://api.spotify.com/v1/tracks/${spotifyId}`, {
+            //                 headers: {
+            //                     'Authorization': `Bearer ${token}`
+            //                 }
+            //             })
+            //         }
+            //         return response.data
 
-                } catch (error) {
-                    console.log('Error: ', error);
-                }
-                finally {
-                    setLoading(false);
-                }
-            }
+            //     } catch (error) {
+            //         console.log('Error: ', error);
+            //     }
+            //     finally {
+            //         setLoading(false);
+            //     }
+            // }
 
             getData();
             getRatings();
@@ -156,7 +148,8 @@ const Profile = () => {
             <Loader />
         )
     }
-    console.log('ISLOGGEDIN::::::::: ', isl);
+    //console.log('ISLOGGEDIN::::::::: ', isl);
+    console.log('RATINGS OF MYSELF-> ', ratings);
 
     if (!isl) {
         return (
@@ -175,44 +168,54 @@ const Profile = () => {
     return (
         <SafeAreaView style={styles.container}>
             <StatusBar barStyle="light-content" backgroundColor="#151515" />
-            <View style={styles.threedots}>
-                <TouchableOpacity onPress={() => router.push("/more")}>
-                    <AntDesign name="ellipsis1" size={24} color='white' />
-                </TouchableOpacity>
-            </View>
-            <View style={styles.heading}>
-                <Text style={styles.h1}>{user?.username}</Text>
-
-                <Image source={user.dp ? { uri: user.dp } : require("../../assets/images/dp.png")} style={styles.img} />
-            </View>
-
-            <View style={styles.greybox}>
-                <TouchableOpacity style={styles.flexcol} onPress={navigateToAll}>
-                    <Text style={styles.greytext}>{user?.reviews?.length || 0}</Text>
-                    <Text style={styles.greytext}>Ratings</Text>
-                </TouchableOpacity>
-                <View style={styles.flexcol}>
-                    <Text style={styles.greytext}>{user?.friends?.length || 0}</Text>
-                    <Text style={styles.greytext}>Followers</Text>
+            <ScrollView contentContainerStyle={styles.scrollContainer}>
+                <View style={styles.threedots}>
+                    <TouchableOpacity onPress={() => router.push("/more")}>
+                        <AntDesign name="ellipsis1" size={24} color="white" />
+                    </TouchableOpacity>
                 </View>
-            </View>
-            <View style={styles.ratediv}>
-                <Text style={styles.ratetext}>Recently Rated:</Text>
-                <View style={styles.ratingdiv}>
-                    {Array.isArray(ratings) && ratings?.slice(0, 3).map((rating, index) => (
-                        <TouchableOpacity style={styles.singlediv} key={index} onPress={() => navigateToSongs(rating.spotifyId, rating.type)}>
-                            <Image style={[styles.albumImg,
-                            { borderColor: (rating.type === 'album') ? '#FF6500' : '#1DB954' },
-                            { borderRadius: (rating.type === 'album') ? 8 : 100 },
 
-                            ]} source={{ uri: rating.dp }} />
-                            <Text style={styles.rtitle}>{rating.albumName?.length > 10 ? `${rating.albumName.substr(0, 10)}...` : rating.albumName}</Text>
-                        </TouchableOpacity>
-                    ))}
+                <View style={styles.heading}>
+                    <Text style={styles.h1}>{user?.username}</Text>
+                    <Image
+                        source={user.dp ? { uri: user.dp } : require("../../assets/images/dp.png")}
+                        style={styles.img}
+                    />
                 </View>
-            </View>
+
+                <View style={styles.greybox}>
+                    <TouchableOpacity style={styles.flexcol} onPress={navigateToAll}>
+                        <Text style={styles.greytext}>{user?.reviews?.length || 0}</Text>
+                        <Text style={styles.greytext}>Ratings</Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity style={styles.flexcol} onPress={() => router.push(`/followers/${globalId}`)}>
+                        <Text style={styles.greytext}>{user?.friends?.length || 0}</Text>
+                        <Text style={styles.greytext}>Followers</Text>
+                    </TouchableOpacity>
+                </View>
+
+                <View style={styles.ratediv}>
+                    <Text style={styles.ratetext}>Recently Rated:</Text>
+                    <View style={styles.ratingdiv}>
+                        {Array.isArray(ratings) && ratings?.slice(0, 3).map((rating, index) => (
+                            <TouchableOpacity
+                                style={[styles.singlediv, {
+                                    borderColor: (rating.type === 'album') ? '#000' : '#000'
+                                }]}
+                                key={index}
+                                onPress={() => navigateToSongs(rating.spotifyId, rating.type)}
+                            >
+                                <Image style={styles.albumImg} source={{ uri: rating.img }} />
+                                <Text style={styles.rtitle}>{rating.comment}</Text>
+                            </TouchableOpacity>
+                        ))}
+                    </View>
+                </View>
+            </ScrollView>
         </SafeAreaView>
-    )
+    );
+
 }
 
 export default Profile
@@ -222,6 +225,10 @@ const styles = StyleSheet.create({
         backgroundColor: "#151515",
         height: "100%",
         display: "flex",
+        alignItems: "center",
+    },
+    scrollContainer: {
+        paddingBottom: 40,
         alignItems: "center",
     },
     threedots: {
@@ -280,33 +287,41 @@ const styles = StyleSheet.create({
         fontFamily: "OpenSans-Bold"
     },
     ratingdiv: {
-        display: "flex",
-        flexWrap: "wrap",
-        flexDirection: "row",
-        gap: Platform.OS == 'ios' ? 10 : 0,
-        width: "100%",
-        marginTop: "2%"
-    },
-    singlediv: {
-        display: "flex",
         flexDirection: "column",
-        borderRadius: 12,
-        height: 140,
-        width: 120,
+        gap: 16,
+        width: "100%",
+        marginTop: "4%",
+        alignSelf: "center"
+    },
+
+    singlediv: {
+        flexDirection: "row",
+        alignItems: "center",
+        backgroundColor: "#1a1a1a",
+        borderRadius: 16,
         padding: 12,
-        alignItems: "center"
+        borderWidth: 0.5,
+        shadowColor: "#000",
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5,
     },
-    rtitle: {
-        color: "white",
-        fontSize: 10,
-        marginTop: 6,
-        fontFamily: "OpenSans-Bold"
-    },
+
     albumImg: {
-        width: 90,
-        height: 90,
-        // borderRadius: 8,
-        borderWidth: 0
+        width: 64,
+        height: 64,
+        borderRadius: 12,
+        marginRight: 12,
+        borderWidth: 2,
+        borderColor: "#444",
+    },
+
+    rtitle: {
+        color: "#fff",
+        fontSize: 12,
+        fontFamily: "OpenSans-Bold",
+        width: "75%"
     },
     notdiv: {
         display: "flex",

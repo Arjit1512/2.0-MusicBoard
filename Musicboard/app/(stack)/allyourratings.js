@@ -40,7 +40,7 @@ const allyourratings = () => {
             }
             const response = await axios.get(`${API_URL}/${userId}/reviews`);
 
-            const sortedArray = response.data.sort((a, b) => new Date(b.date) - new Date(a.date));
+            const sortedArray = response.data.reviews.sort((a, b) => new Date(b.date) - new Date(a.date));
             setRatings(sortedArray);
 
         } catch (error) {
@@ -53,7 +53,7 @@ const allyourratings = () => {
     }
 
     const handleDelete = async (userId, reviewId) => {
-        console.log('Delete clicked');
+        console.log('Delete clicked with userId: '+ userId+ ' and reviewId: '+reviewId);
         setLoading(true)
         try {
             if (!userId) {
@@ -61,7 +61,7 @@ const allyourratings = () => {
                 return;
             }
             const response = await axios.delete(`${API_URL}/${userId}/delete-review/${reviewId}`);
-            console.log(response.data.Message);
+            console.log('RESPONSE FROM DELETE ROUTE-> ',response.data);
             setRatings((ratings) => ratings.filter((r) => r._id != r.reviewId))
             setFlag((prev) => [...prev, 1]);
         } catch (error) {
@@ -72,7 +72,7 @@ const allyourratings = () => {
     }
 
 
-    console.log('RATINGS: ', ratings);
+    //console.log('RATINGS: ', ratings);
     if (loading) {
         return (
             <Loader />
@@ -87,8 +87,9 @@ const allyourratings = () => {
                         <AntDesign style={styles.back} name="left" size={24} color="white" />
                     </TouchableOpacity>
                 </View>
-                <Text style={styles.ta}>YOUR RATINGS</Text>
+                <Text style={styles.ta}>RATINGS ({ratings.length})</Text>
                 {ratings.map((item, index) => {
+                    console.log("REVIEW ITEM: ", item);
                     return (
                         <View style={styles.each} key={index}>
                             <Image style={styles.dp} source={{ uri: item.img }}></Image>
@@ -104,8 +105,8 @@ const allyourratings = () => {
                                             />
                                         ))}
                                     </View>
-                                    <TouchableOpacity onPress={() => handleDelete(item.userId, item._id)}>
-                                        <MaterialIcons name='delete' size={24} color='grey' />
+                                    <TouchableOpacity onPress={() => handleDelete(item.userId, item.id)}>
+                                        <MaterialIcons name='delete' size={24} color='#BB271A' />
                                     </TouchableOpacity>
 
 
@@ -135,7 +136,7 @@ const styles = StyleSheet.create({
     back: {
         position: "absolute",
         left: "2%",
-        top: "2.3%",
+        top: "1.5%",
         zIndex: 10
     },
     ta: {

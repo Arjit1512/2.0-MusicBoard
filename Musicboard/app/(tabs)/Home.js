@@ -74,12 +74,12 @@ const Home = () => {
                 console.log("Calling reviews API at:", `${API_URL}/reviews`);
                 try {
                     const response = await axios.get(`${API_URL}/reviews`)
-                    console.log('API RESPONSE: ',response.data.Message)
-                    
+                    console.log('API RESPONSE: ', response.data.Message)
+
                     const reviews = response.data.reviews;
 
                     const updatedReviews = await Promise.all(
-                        reviews.map(async (review) => {
+                        reviews.slice(0,30).map(async (review) => {
                             const answer = await getAlbumInfo(review.spotifyId, review.type);
                             return {
                                 ...review,
@@ -205,13 +205,14 @@ const Home = () => {
                                                 ))}
                                             </View>
                                             <Text style={styles.result}>{item?.comment || ''}</Text>
-                                            {/* <TouchableWithoutFeedback onPress={()=> router.push("/otherprofile")}> */}
-                                            <Text style={styles.span}>• Posted by {item?.username} on {new Date(item.date).toLocaleDateString()}</Text>
-                                            {/* </TouchableWithoutFeedback> */}
+                                            <Text style={styles.span}  onPress={() => router.push(`/otherprofile/${item.userId}`)}>• Posted by{' '}
+                                                <Text style={{ fontWeight: 700 }}>{item?.username}</Text>
+                                                {' '}on {new Date(item.date).toLocaleDateString()}</Text>
+
                                         </View>
                                     </View>
                                 </TouchableOpacity>
-                                {(index!==0 && index % 20 == 0) && (
+                                {(index !== 0 && index % 20 == 0) && (
                                     <TouchableOpacity onPress={() => Linking.openURL("https://truehood.shop")}>
                                         <Image source={require("../../assets/images/th.png")} style={styles.ad} />
                                     </TouchableOpacity>
@@ -301,8 +302,8 @@ const styles = StyleSheet.create({
         borderRadius: 6,
         display: "flex",
         flexDirection: "row",
-        borderWidth:0.2,
-        
+        borderWidth: 0.2,
+
     },
     whitecoldiv: {
         display: "flex",
@@ -325,11 +326,11 @@ const styles = StyleSheet.create({
         marginTop: 6,
         fontStyle: "italic"
     },
-    ad:{
-        height:120,
-        width:"94%",
-        alignSelf:"center",
-        borderColor:"white",
+    ad: {
+        height: 120,
+        width: "94%",
+        alignSelf: "center",
+        borderColor: "white",
         borderRadius: 12,
         marginBottom: 15,
         backgroundColor: "#252525",
