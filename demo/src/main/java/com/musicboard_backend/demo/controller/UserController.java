@@ -178,7 +178,9 @@ public class UserController {
         User existingUser = repo.findById(id).orElse(null);
 
         if (existingUser == null) {
-            return ResponseEntity.status(409).body("User doesn't exists!");
+            Map<String, String> response = new HashMap<>();
+            response.put("Message","User doesn't exists!");
+            return ResponseEntity.status(409).body(response);
         }
 
         // coz in ReviewRepository.java file, we have mentioned
