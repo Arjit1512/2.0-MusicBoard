@@ -41,7 +41,7 @@
     "extra": {
       "SPOTIFY_CLIENT_ID":"ddad339fb6394da18c6e67ef607f189a",
       "SPOTIFY_CLIENT_SECRET":"ace868b377284bbc81c7ffb777721cb9",
-      "API_URL": "http://192.168.1.34:8080",
+      "API_URL": "https://two-0-musicboard-backend.onrender.com",
       "router": {
         "origin": false
       },
