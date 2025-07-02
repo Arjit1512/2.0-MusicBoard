@@ -9,6 +9,7 @@ public class Review {
     
     @Id
     private String id;
+    private String name;
     private String type;
     private String spotifyId;
     private String img;
@@ -19,9 +20,10 @@ public class Review {
     private String username;
     public Review() {
     }
-    public Review(String id, String type, String spotifyId, String img, Integer stars, String comment, String date,
+    public Review(String id, String name, String type, String spotifyId, String img, Integer stars, String comment, String date,
             String userId, String username) {
         this.id = id;
+        this.name = name;
         this.type = type;
         this.spotifyId = spotifyId;
         this.img = img;
@@ -36,6 +38,12 @@ public class Review {
     }
     public void setId(String id) {
         this.id = id;
+    }
+    public String getName() {
+        return name;
+    }
+    public void setName(String name) {
+        this.name = name;
     }
     public String getType() {
         return type;
@@ -87,9 +95,10 @@ public class Review {
     }
     @Override
     public String toString() {
-        return "Review [id=" + id + ", type=" + type + ", spotifyId=" + spotifyId + ", img=" + img + ", stars=" + stars
+        return "Review [id=" + id + ", name=" + name + ", type=" + type + ", spotifyId=" + spotifyId + ", img=" + img + ", stars=" + stars
                 + ", comment=" + comment + ", date=" + date + ", userId=" + userId + ", username=" + username + "]";
     }
+    
 
     
     
