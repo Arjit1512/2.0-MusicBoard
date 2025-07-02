@@ -133,7 +133,7 @@ const Home = () => {
                                         <View style={styles.whitediv}>
                                             <Image style={styles.dp} source={{ uri: item.img }}></Image>
                                             <View style={[styles.whitecoldiv]}>
-                                                <Text style={styles.resultb}>{item?.name?.length > 40 ? item?.name?.slice(0, 40) + '...' : item?.name}</Text>
+                                                <Text style={styles.resultb}>{item?.name?.length > 32 ? item?.name?.slice(0, 32) + '...' : item?.name}</Text>
                                                 <Text style={styles.p}>{item.artistName} • {item.type.charAt(0).toUpperCase() + item.type.slice(1)}</Text>
 
                                             </View>

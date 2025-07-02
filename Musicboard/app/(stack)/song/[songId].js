@@ -102,7 +102,7 @@ const Track = () => {
             await Linking.openURL(songId);
         } catch (error) {
             console.log('Error: ', error);
-            Alert.alert("Error", "Something went wrong while opening Spotify.");
+            Alert.alert("Error", "Something went wrong. Please make sure that you have Spotify installed.");
         } finally {
             setLoading(false);
         }
