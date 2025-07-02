@@ -104,7 +104,7 @@ const SearchPage = () => {
   const getArtistsDebounced = useCallback(
     debounce(() => {
       console.log("Fetching artists for:", search);
-      if(search.length > 0)getArtists();
+      if (search.length > 0) getArtists();
     }, 300),
     [search, option] // Dependency array ensures proper debouncing
   );
@@ -157,6 +157,14 @@ const SearchPage = () => {
     }
   }
 
+  const handleUpgrade = async() => {
+    try {
+      alert("Sorry, songs will be added soon.");
+    } catch (error) {
+      console.log('Error: ', error);
+      alert(error)
+    }
+  }
 
 
   useEffect(() => {
@@ -240,10 +248,18 @@ const SearchPage = () => {
               <View>
                 <Text style={styles.heading}>Top Genres</Text>
                 <View style={styles.container2}>
-                  <Image style={styles.mainimg} source={require("../../assets/images/image3.png")}></Image>
-                  <Image style={styles.mainimg} source={require("../../assets/images/image.png")}></Image>
-                  <Image style={styles.mainimg} source={require("../../assets/images/image2.png")}></Image>
-                  <Image style={styles.mainimg} source={require("../../assets/images/image1.png")}></Image>
+                  <TouchableOpacity onPress={handleUpgrade}>
+                    <Image style={styles.mainimg} source={require("../../assets/images/image3.png")}></Image>
+                  </TouchableOpacity>
+                  <TouchableOpacity onPress={handleUpgrade}>
+                    <Image style={styles.mainimg} source={require("../../assets/images/image.png")}></Image>
+                  </TouchableOpacity>
+                  <TouchableOpacity onPress={handleUpgrade}>
+                    <Image style={styles.mainimg} source={require("../../assets/images/image2.png")}></Image>
+                  </TouchableOpacity>
+                  <TouchableOpacity onPress={handleUpgrade}>
+                    <Image style={styles.mainimg} source={require("../../assets/images/image1.png")}></Image>
+                  </TouchableOpacity>
                 </View>
               </View>
               <View>
@@ -300,8 +316,8 @@ const styles = StyleSheet.create({
     position: 'relative',
     left: "1%"
   },
-  entiresearchdiv:{
-    marginLeft:6
+  entiresearchdiv: {
+    marginLeft: 6
   },
   bar: {
     borderWidth: 2,
@@ -357,9 +373,9 @@ const styles = StyleSheet.create({
   flexwrap: {
     flexDirection: "row",
     flexWrap: "wrap",
-    gap:15,
-    marginTop:12,
-    marginLeft:12
+    gap: 15,
+    marginTop: 12,
+    marginLeft: 12
   },
   container2: {
     display: "flex",
@@ -368,7 +384,8 @@ const styles = StyleSheet.create({
     width: "100%",
     gap: 15,
     paddingBottom: "5%",
-    marginLeft:12
+    marginLeft: 12,
+    marginTop:"2%"
   },
   mainimg: {
     width: 170,

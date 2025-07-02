@@ -1,6 +1,6 @@
 export default {
   expo: {
-    name: "Musicboard",
+    name: "Musicmatch",
     slug: "Musicboard",
     version: "1.0.0",
     orientation: "portrait",

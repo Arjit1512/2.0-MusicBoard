@@ -14,6 +14,7 @@ const rating = () => {
     const [loading, setLoading] = useState(false);
     const [comment, setComment] = useState('');
     const [type, setType] = useState('album');
+    const [inputHeight, setInputHeight] = useState(50);
     const API_URL = Constants.expoConfig.extra.API_URL;
     let fontsLoaded = useFonts({
         "OpenSans": require("../../assets/fonts/OpenSans-Regular.ttf"),
@@ -56,19 +57,19 @@ const rating = () => {
 
             const response = await axios.post(`${API_URL}/${userId}/add-review/${albumId}`, {
                 spotifyId: (type === 'album') ? albumId : songId,
-                name:aName,
+                name: aName,
                 img: albumDp,
                 type: type,
                 stars: rating,
                 comment: cleanComment || ''
             })
-            console.log('RESPONSE FROM RATING PAGE: ',response.data)
+            console.log('RESPONSE FROM RATING PAGE: ', response.data)
             if (response.data.Message === "Review added successfully") {
                 setComment('');
                 setRating(0);
                 router.back()
             }
-            else if(response.data.Message === undefined){
+            else if (response.data.Message === undefined) {
                 alert("Please login to add rating!")
                 router.push("/login");
                 return;
@@ -115,8 +116,12 @@ const rating = () => {
                             </TouchableOpacity>
                         ))}
                     </View>
-                    <TextInput style={styles.ti2} onChangeText={(text) => setComment(text)}
-                        placeholder='Write a Review...' placeholderTextColor='grey' value={rating.comment}></TextInput>
+                    <TextInput style={[styles.ti2, { height: inputHeight }]} onChangeText={(text) => setComment(text)}
+                        placeholder='Write a Review...' placeholderTextColor='grey' value={rating.comment}
+                        multiline
+                        onContentSizeChange={(event) =>
+                            setInputHeight(Math.max(50, event.nativeEvent.contentSize.height))
+                        }></TextInput>
                     <TouchableOpacity style={[styles.btn, { backgroundColor: (type === 'album') ? '#FF6500' : '#1DB954' }]} onPress={handleSubmit}>
                         <Text style={styles.btntext} >Submit</Text>
                     </TouchableOpacity>
@@ -198,12 +203,12 @@ const styles = StyleSheet.create({
         fontFamily: "OpenSans"
     },
     ti2: {
-        height: "max-content",
         width: "90%",
-        textAlign: "left",
+        textAlignVertical: "top",  // For Android to align top in multiline
         borderRadius: 12,
         color: "white",
         marginTop: 20,
-        fontFamily: "OpenSans"
+        fontFamily: "OpenSans",
+        padding: 10,
     }
 })

@@ -99,23 +99,15 @@ const Track = () => {
     const navigateTo = async (songId) => {
         setLoading(true);
         try {
-            const supported = await Linking.canOpenURL(songLink);
-            if (supported) {
-                await Linking.openURL(songLink);
-            } else {
-                Alert.alert(
-                    "Spotify Not Installed",
-                    "Cannot open the link. Please install Spotify to continue."
-                );
-            }
+            await Linking.openURL(songId);
         } catch (error) {
-            console.log('Error: ', error)
+            console.log('Error: ', error);
             Alert.alert("Error", "Something went wrong while opening Spotify.");
-        }
-        finally {
+        } finally {
             setLoading(false);
         }
-    }
+    };
+
 
     const getavgRatingSong = async () => {
         try {
