@@ -10,6 +10,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -42,6 +43,9 @@ public class UserController {
 
     @Autowired
     private RedisService redisService;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @GetMapping("/")
     public String index() {
@@ -80,7 +84,7 @@ public class UserController {
         }
 
         newuser.setUsername(username);
-        newuser.setPassword(password);
+        newuser.setPassword(passwordEncoder.encode(password));
         newuser.setDp(dpUrl);
         repo.save(newuser);
 
@@ -139,7 +143,6 @@ public class UserController {
         repo.save(existingUser);
         redisService.deleteReviewsCache(); // <- Invalidate cache after new review
 
-
         Map<String, String> response = new HashMap<>();
         response.put("Message", "Review added successfully");
         response.put("new_review_id", savedReview.getId());
@@ -167,7 +170,6 @@ public class UserController {
         revrepo.delete(review);
         redisService.deleteReviewsCache(); // <- Invalidate cache after new review
 
-
         Map<String, String> response = new HashMap<>();
         response.put("Message", "Review deleted successfully");
         return ResponseEntity.status(200).body(response);
@@ -179,7 +181,7 @@ public class UserController {
 
         if (existingUser == null) {
             Map<String, String> response = new HashMap<>();
-            response.put("Message","User doesn't exists!");
+            response.put("Message", "User doesn't exists!");
             return ResponseEntity.status(200).body(response);
         }
 

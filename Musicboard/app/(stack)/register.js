@@ -8,6 +8,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import { router } from 'expo-router'
 import Loader from '../../components/Loader';
 import Constants from 'expo-constants';
+import * as ImageManipulator from 'expo-image-manipulator';
+
 
 const login = () => {
 
@@ -24,16 +26,31 @@ const login = () => {
     })
 
     const pickImage = async () => {
-        let result = await ImagePicker.launchImageLibraryAsync({
-            mediaTypes: ImagePicker.MediaTypeOptions.Images,
-            allowsEditing: true,
-            quality: 1,
-        });
+    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (status !== 'granted') {
+        alert('Permission to access media library is required!');
+        return;
+    }
 
-        if (!result.canceled) {
-            setProfilePic(result.assets[0]);
-        }
-    };
+    let result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images, // ✅ back to working value
+        allowsEditing: true,
+        quality: 1,
+    });
+
+    if (!result.canceled) {
+        const compressed = await ImageManipulator.manipulateAsync(
+            result.assets[0].uri,
+            [{ resize: { width: 800 } }],
+            { compress: 0.7, format: ImageManipulator.SaveFormat.JPEG }
+        );
+
+        setProfilePic({ uri: compressed.uri });
+    }
+};
+
+
+
 
 
     const handleLogin = async () => {

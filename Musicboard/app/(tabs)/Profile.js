@@ -224,8 +224,8 @@ const styles = StyleSheet.create({
     container: {
         backgroundColor: "#151515",
         height: "100%",
+        width:"100%",
         display: "flex",
-        alignItems: "center",
     },
     scrollContainer: {
         paddingBottom: 40,
