@@ -77,19 +77,7 @@ const Home = () => {
                     console.log('API RESPONSE: ', response.data.Message)
 
                     const reviews = response.data.reviews;
-
-                    const updatedReviews = await Promise.all(
-                        reviews.slice(0,30).map(async (review) => {
-                            const answer = await getAlbumInfo(review.spotifyId, review.type);
-                            return {
-                                ...review,
-                                artistName: answer.artistName,
-                                rd: answer.rd,
-                                albumName: answer.name
-                            }
-                        }))
-
-                    setFeed(updatedReviews)
+                    setFeed(reviews)
                 } catch (error) {
                     console.log('Error: ', error)
                     // alert(error)
@@ -98,50 +86,7 @@ const Home = () => {
                 }
             }
 
-            const getAlbumInfo = async (spotifyId, type) => {
-                setLoading(true)
-
-
-                const token = await AsyncStorage.getItem('token');
-                if (!token) {
-                    console.log("Token not available, fetching new one...");
-                    await getToken();
-                    return { name: "", rd: "", artistName: "" };
-                }
-
-
-                try {
-                    if (!token) return { name: "", rd: "", artistName: "" };
-                    let response = '';
-                    if (type === 'album') {
-                        response = await axios.get(`https://api.spotify.com/v1/albums/${spotifyId}`, {
-                            headers: {
-                                'Authorization': `Bearer ${token}`
-                            }
-                        })
-                    }
-                    else if (type === 'track') {
-                        response = await axios.get(`https://api.spotify.com/v1/tracks/${spotifyId}`, {
-                            headers: {
-                                'Authorization': `Bearer ${token}`
-                            }
-                        })
-                    }
-
-                    const object = {
-                        name: response.data.name,
-                        rd: response.data.release_date,
-                        artistName: response.data.artists[0].name
-                    }
-                    return object;
-                } catch (error) {
-                    console.log('Error: ', error)
-                    // alert(error)
-                    return { name: "", rd: "", artistName: "" };
-                } finally {
-                    setLoading(false)
-                }
-            }
+         
             getFeed();
 
         }, [])
@@ -188,7 +133,7 @@ const Home = () => {
                                         <View style={styles.whitediv}>
                                             <Image style={styles.dp} source={{ uri: item.img }}></Image>
                                             <View style={[styles.whitecoldiv]}>
-                                                <Text style={styles.resultb}>{item.albumName}</Text>
+                                                <Text style={styles.resultb}>{item?.name?.length > 40 ? item?.name?.slice(0, 44) + '...' : item?.name}</Text>
                                                 <Text style={styles.p}>{item.artistName} • {item.type.charAt(0).toUpperCase() + item.type.slice(1)}</Text>
 
                                             </View>
@@ -205,7 +150,7 @@ const Home = () => {
                                                 ))}
                                             </View>
                                             <Text style={styles.result}>{item?.comment || ''}</Text>
-                                            <Text style={styles.span}  onPress={() => router.push(`/otherprofile/${item.userId}`)}>• Posted by{' '}
+                                            <Text style={styles.span} onPress={() => router.push(`/otherprofile/${item.userId}`)}>• Posted by{' '}
                                                 <Text style={{ fontWeight: 700 }}>{item?.username}</Text>
                                                 {' '}on {new Date(item.date).toLocaleDateString()}</Text>
 
@@ -277,7 +222,7 @@ const styles = StyleSheet.create({
     resultb: {
         color: 'white',
         fontSize: 12,
-        width: "86%",
+        width: "100%",
         fontFamily: "OpenSans-Bold",
         paddingVertical: 5,
         lineHeight: 18,
@@ -286,7 +231,10 @@ const styles = StyleSheet.create({
         color: 'grey',
         fontSize: 12,
         paddingVertical: 5,
-        lineHeight: 18,
+        lineHeight: 12,
+        position:'relative',
+        right:5,
+        bottom:1
     },
     dp: {
         width: 55,
@@ -309,6 +257,8 @@ const styles = StyleSheet.create({
         display: "flex",
         flexDirection: "column",
         marginLeft: 8,
+        position:'relative',
+        top:6
     },
     ta: {
         color: "white",

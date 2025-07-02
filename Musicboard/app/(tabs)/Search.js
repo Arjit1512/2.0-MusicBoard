@@ -236,7 +236,7 @@ const SearchPage = () => {
               </View>
             )
           })) : (
-            <View>
+            <View style={styles.entiresearchdiv}>
               <View>
                 <Text style={styles.heading}>Top Genres</Text>
                 <View style={styles.container2}>
@@ -284,7 +284,7 @@ const styles = StyleSheet.create({
     height: "100%",
     display: "flex",
     width: "100%",
-    alignItems: "center"
+    alignItems: "center",
   },
   searchdiv: {
     display: "flex",
@@ -299,6 +299,9 @@ const styles = StyleSheet.create({
     paddingBottom: "5%",
     position: 'relative',
     left: "1%"
+  },
+  entiresearchdiv:{
+    marginLeft:6
   },
   bar: {
     borderWidth: 2,
@@ -354,7 +357,9 @@ const styles = StyleSheet.create({
   flexwrap: {
     flexDirection: "row",
     flexWrap: "wrap",
-    gap:15
+    gap:15,
+    marginTop:12,
+    marginLeft:12
   },
   container2: {
     display: "flex",
@@ -362,13 +367,14 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
     width: "100%",
     gap: 15,
-    paddingBottom: "5%"
+    paddingBottom: "5%",
+    marginLeft:12
   },
   mainimg: {
     width: 170,
     height: 120,
     borderRadius: 20,
-    marginTop: "5%"
+    marginTop: "2%"
   },
   //search filters
   div: {

@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View, Image, ScrollView, ActivityIndicator, TouchableOpacity } from 'react-native';
 import React, { useEffect, useState } from 'react';
-import { useLocalSearchParams, router } from 'expo-router';
+import { useLocalSearchParams, router, useFocusEffect } from 'expo-router';
 import axios from 'axios';
 import Constants from 'expo-constants';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -12,31 +12,33 @@ const Followers = () => {
   const [loading, setLoading] = useState(true);
   const API_URL = Constants.expoConfig.extra.API_URL;
 
-  useEffect(() => {
-    const fetchFriends = async () => {
-      try {
-        // 1. Get user details
-        const userResponse = await axios.get(`${API_URL}/get-details/${userId}`);
-        const friendIds = userResponse.data.Message.friends;
+  useFocusEffect(
+    React.useCallback(() => {
+      const fetchFriends = async () => {
+        setLoading(true);
+        try {
+          const userResponse = await axios.get(`${API_URL}/get-details/${userId}`);
+          const friendIds = userResponse.data.Message.friends;
 
-        // 2. Get each friend's info
-        const friendsData = await Promise.all(friendIds.map(async (id) => {
-          const res = await axios.get(`${API_URL}/get-details/${id}`);
-          return res.data.Message;
-        }));
+          const friendsData = await Promise.all(friendIds.map(async (id) => {
+            const res = await axios.get(`${API_URL}/get-details/${id}`);
+            return res.data.Message;
+          }));
 
-        setFriends(friendsData);
-      } catch (error) {
-        console.error('Error fetching friends:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
+          setFriends(friendsData);
+        } catch (error) {
+          console.error('Error fetching friends:', error);
+        } finally {
+          setLoading(false);
+        }
+      };
 
-    fetchFriends();
-  }, [userId]);
+      fetchFriends();
+    }, [userId])
+  );
 
-  if (loading) return <ActivityIndicator style={{ marginTop: 100 }} size="large" color="#000" />;
+
+  if (loading) return <ActivityIndicator style={styles.fullPage} size="large" color="#fff" />;
 
   return (
     <SafeAreaView style={styles.fullPage}>
@@ -48,10 +50,10 @@ const Followers = () => {
       <ScrollView contentContainerStyle={styles.container}>
         <Text style={styles.title}>Friends ({friends.length})</Text>
         {friends.map((friend, index) => (
-          <View key={index} style={styles.card}>
-            <Image source={{ uri: friend.dp }} style={styles.dp} />
+          <TouchableOpacity key={index} style={styles.card} onPress={() => router.push(`/otherprofile/${friend?.id}`)}>
+            <Image source={friend.dp ? { uri: friend.dp } : require("../../assets/images/dp.png")} style={styles.dp} />
             <Text style={styles.name}>{friend.username}</Text>
-          </View>
+          </TouchableOpacity>
         ))}
       </ScrollView>
     </SafeAreaView>
@@ -75,7 +77,7 @@ const styles = StyleSheet.create({
   container: {
     padding: 20,
     alignItems: 'center',
-    paddingTop:0
+    paddingTop: 0
   },
   title: {
     color: "white",

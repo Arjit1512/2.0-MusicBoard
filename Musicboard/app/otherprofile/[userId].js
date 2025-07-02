@@ -1,10 +1,10 @@
-import { Image, Platform, StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Image, Platform, ScrollView, StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { AntDesign } from '@expo/vector-icons'
 import axios from 'axios'
 import Constants from 'expo-constants';
-import { useLocalSearchParams, router } from 'expo-router'
+import { useLocalSearchParams, router, useFocusEffect } from 'expo-router'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import login from '../(stack)/login'
 
@@ -17,10 +17,12 @@ const otherprofile = () => {
   const [ratings, setRatings] = useState([]);
   console.log("OTHER USER'S USERID:::: ", userId);
 
-  useEffect(() => {
-    getUserInfo();
-    getTop3Ratings();
-  }, []);
+  useFocusEffect(
+    React.useCallback(() => {
+      getUserInfo();
+      getTop3Ratings();
+    }, [])
+  );
 
   useEffect(() => {
     checkFriendship();
@@ -92,6 +94,7 @@ const otherprofile = () => {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor="#151515" />
+      <ScrollView contentContainerStyle={{ alignItems: 'center', paddingBottom: 40 }} showsVerticalScrollIndicator={false}>
       <View style={styles.back}>
         <TouchableOpacity onPress={() => router.back()}>
           <AntDesign style={styles.back} name="left" size={24} color="white" />
@@ -133,6 +136,7 @@ const otherprofile = () => {
           ))}
         </View>
       </View>
+      </ScrollView>
     </SafeAreaView>
   )
 }
@@ -242,6 +246,8 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontSize: 12,
     fontFamily: "OpenSans-Bold",
+    width: "80%",
+    padding:2
   },
 
   notdiv: {

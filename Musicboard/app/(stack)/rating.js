@@ -39,6 +39,7 @@ const rating = () => {
         const songId = await AsyncStorage.getItem('songId');
         const userId = await AsyncStorage.getItem('userId');
         const albumDp = await AsyncStorage.getItem('albumDp');
+        const aName = await AsyncStorage.getItem('aName');
         const type = await AsyncStorage.getItem('type');
         setLoading(true)
         try {
@@ -55,6 +56,7 @@ const rating = () => {
 
             const response = await axios.post(`${API_URL}/${userId}/add-review/${albumId}`, {
                 spotifyId: (type === 'album') ? albumId : songId,
+                name:aName,
                 img: albumDp,
                 type: type,
                 stars: rating,

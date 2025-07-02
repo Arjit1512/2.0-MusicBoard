@@ -8,7 +8,7 @@ import { router, useFocusEffect, useLocalSearchParams } from 'expo-router';
 import { Feather } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Loader from '../../../components/Loader'
-import { Linking } from 'react-native';
+import { Linking, Alert } from 'react-native';
 
 const Track = () => {
 
@@ -99,10 +99,18 @@ const Track = () => {
     const navigateTo = async (songId) => {
         setLoading(true);
         try {
-            Linking.openURL(songId);
+            const supported = await Linking.canOpenURL(songLink);
+            if (supported) {
+                await Linking.openURL(songLink);
+            } else {
+                Alert.alert(
+                    "Spotify Not Installed",
+                    "Cannot open the link. Please install Spotify to continue."
+                );
+            }
         } catch (error) {
             console.log('Error: ', error)
-            alert(error)
+            Alert.alert("Error", "Something went wrong while opening Spotify.");
         }
         finally {
             setLoading(false);
@@ -134,7 +142,8 @@ const Track = () => {
         setLoading(true)
         try {
             await AsyncStorage.setItem('songId', songId);
-            await AsyncStorage.setItem('albumDp', song.img)
+            await AsyncStorage.setItem('albumDp', song.img);
+            await AsyncStorage.setItem('aName', song.name);
             await AsyncStorage.setItem('type', 'track')
             router.push("/rating");
         } catch (error) {
@@ -453,12 +462,12 @@ const styles = StyleSheet.create({
         display: "flex",
         flexDirection: "row",
         marginTop: 10,
-        paddingHorizontal:16,
+        paddingHorizontal: 16,
     },
     col: {
         display: "flex",
         flexDirection: "column",
-        marginLeft:0,
+        marginLeft: 0,
         justifyContent: "center",
         flex: 1,
     },
@@ -466,7 +475,7 @@ const styles = StyleSheet.create({
         color: '#E2DFD0',
         fontSize: 12,
         paddingVertical: 6,
-        paddingHorizontal:16,
+        paddingHorizontal: 16,
         lineHeight: 18,
     },
     resultb: {
@@ -511,7 +520,7 @@ const styles = StyleSheet.create({
         marginTop: 6,
         fontStyle: "italic"
     },
-    row:{
+    row: {
         display: "flex",
         flexDirection: "row",
         borderRadius: 12,
@@ -521,7 +530,7 @@ const styles = StyleSheet.create({
         width: "100%",
         borderWidth: 0.2,
         alignSelf: "center",
-        alignItems:"center",
-        justifyContent:"center"
+        alignItems: "center",
+        justifyContent: "center"
     }
 });                                                     

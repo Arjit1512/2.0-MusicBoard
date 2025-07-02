@@ -97,8 +97,9 @@ const Songs = () => {
         setLoading(true)
         try {
             await AsyncStorage.setItem('albumId', albumId);
-            await AsyncStorage.setItem('albumDp', albumInfo.dp)
-            await AsyncStorage.setItem('type', 'album')
+            await AsyncStorage.setItem('albumDp', albumInfo.dp);
+            await AsyncStorage.setItem('aName', albumInfo.title);
+            await AsyncStorage.setItem('type', 'album');
             router.push("/rating");
         } catch (error) {
             console.log('Error: ', error)
@@ -125,35 +126,6 @@ const Songs = () => {
             console.log('Error: ', error)
             alert(error)
             return 0;
-        }
-    }
-
-    const openPopup = async (songId) => {
-        setLoading(true)
-        const token = await AsyncStorage.getItem("token");
-        try {
-            if (!token) return;
-            setPopup(true)
-            console.log('Popup clicked!');
-            const response = await axios.get(`https://api.spotify.com/v1/tracks/${songId}`, {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            })
-            const object = {
-                name: response.data.name,
-                id: response.data.id,
-                duration: parseFloat(response.data.duration_ms / 60000).toFixed(2),
-                artistName: response.data.artists[0].name,
-                link: response.data.uri,
-                img: response.data.album.images[0].url
-            }
-            setSong(object);
-        } catch (error) {
-            console.log('Error: ', error)
-        }
-        finally {
-            setLoading(false);
         }
     }
 
