@@ -4,7 +4,7 @@ export default {
     slug: "Musicboard",
     version: "1.0.0",
     orientation: "portrait",
-    icon: "./assets/images/logo.png",
+    icon: "./assets/images/logo1.png",
     scheme: "myapp",
     userInterfaceStyle: "automatic",
     newArchEnabled: true,

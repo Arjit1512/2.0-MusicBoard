@@ -92,53 +92,56 @@ const otherprofile = () => {
 
 
   return (
-    <SafeAreaView style={styles.container}>
-      <StatusBar barStyle="light-content" backgroundColor="#151515" />
-      <ScrollView contentContainerStyle={{ alignItems: 'center', paddingBottom: 40 }} showsVerticalScrollIndicator={false}>
+  <SafeAreaView style={styles.container}>
+    <StatusBar barStyle="light-content" backgroundColor="#151515" />
+    <ScrollView contentContainerStyle={styles.scrollContainer} showsVerticalScrollIndicator={false}>
       <View style={styles.back}>
         <TouchableOpacity onPress={() => router.back()}>
           <AntDesign style={styles.back} name="left" size={24} color="white" />
         </TouchableOpacity>
       </View>
+
       <View style={styles.heading}>
         <Text style={styles.h1}>{user?.username}</Text>
-
-        <Image source={user.dp ? { uri: user.dp } : require("../../assets/images/dp.png")} style={styles.img} />
       </View>
+
+      <Image source={user.dp ? { uri: user.dp } : require("../../assets/images/dp.png")} style={styles.img} />
 
       <View style={styles.greybox}>
-        <View style={styles.flexcol}>
+        <TouchableOpacity style={styles.flexcol}>
           <Text style={styles.greytext}>{user?.reviews?.length || 0}</Text>
           <Text style={styles.greytext}>Ratings</Text>
-        </View>
-        <View style={styles.flexcol}>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.flexcol}>
           <Text style={styles.greytext}>{user?.friends?.length || 0}</Text>
           <Text style={styles.greytext}>Followers</Text>
-        </View>
+        </TouchableOpacity>
       </View>
-      <View>
+
+      <View style={styles.btnmove}>
         <TouchableOpacity style={styles.addButton} onPress={() => handleAddFriend(realUserId, userId)}>
           <Text style={styles.addButtonText}>{isFriend ? 'Remove Friend' : 'Add Friend'}</Text>
         </TouchableOpacity>
-
       </View>
+
       <View style={styles.ratediv}>
         <Text style={styles.ratetext}>Recently Rated:</Text>
         <View style={styles.ratingdiv}>
           {Array.isArray(ratings) && ratings.map((rating, index) => (
-            <TouchableOpacity style={[styles.singlediv,
-            { borderColor: (rating.type === 'album') ? '#000' : '#000' }
-            ]} key={index} onPress={() => (rating.type === 'album') ? router.push(`/album/${rating.spotifyId}`) : router.push(`/song/${rating.spotifyId}`)}>
-              <Image style={[styles.albumImg,
-              ]} source={{ uri: rating.img }} />
+            <TouchableOpacity
+              key={index}
+              style={styles.singlediv}
+              onPress={() => (rating.type === 'album') ? router.push(`/album/${rating.spotifyId}`) : router.push(`/song/${rating.spotifyId}`)}
+            >
+              <Image style={styles.albumImg} source={{ uri: rating.img }} />
               <Text style={styles.rtitle}>{rating.comment}</Text>
             </TouchableOpacity>
           ))}
         </View>
       </View>
-      </ScrollView>
-    </SafeAreaView>
-  )
+    </ScrollView>
+  </SafeAreaView>
+);
 }
 
 export default otherprofile
@@ -147,7 +150,11 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: "#151515",
     height: "100%",
+    width: "100%",
     display: "flex",
+  },
+  scrollContainer: {
+    paddingBottom: 40,
     alignItems: "center",
   },
   back: {
@@ -156,144 +163,40 @@ const styles = StyleSheet.create({
     top: "6%",
     zIndex: 10
   },
-  threedots: {
-    position: "relative",
-    left: "40%",
-    top: "3.5%",
-    width: "max-content"
-  },
   h1: {
     color: "#fff",
     fontSize: 18,
     textAlign: "center",
+    marginTop: 20,
   },
   img: {
     objectFit: "cover",
     width: 80,
     height: 80,
-    position: "relative",
-    top: "25%",
-    right: "35%",
-    borderRadius: 100
+    position: "absolute",
+    top: 70,
+    right: "75%",
+    borderRadius: 100,
   },
   greybox: {
-    color: "grey",
-    display: "flex",
     flexDirection: "row",
     gap: 40,
-    position: "relative",
-    left: "5%"
+    marginTop: "15%",
+    marginLeft:"3%",
+    marginBottom: 10,
   },
   flexcol: {
-    display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    position: "relative",
-    bottom: "85%"
   },
   greytext: {
     color: "grey"
   },
-  ratediv: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "left",
-    position: "relative",
-    top: "2%",
-    width: "100%",
-    paddingTop: 10
-  },
-  ratetext: {
-    color: "white",
-    fontSize: 18,
-    marginLeft: "2%",
-    textAlign: "left",
-    fontWeight: "800",
-    fontFamily: "OpenSans-Bold"
-  },
-  ratingdiv: {
-    flexDirection: "column",
-    gap: 16,
-    width: "94%",
-    marginTop: "4%",
-    alignSelf: "center"
-  },
-
-  singlediv: {
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: "#1a1a1a",
-    borderRadius: 16,
-    padding: 12,
-    borderWidth: 0.5,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
-  },
-
-  albumImg: {
-    width: 64,
-    height: 64,
-    borderRadius: 12,
-    marginRight: 12,
-    borderWidth: 2,
-    borderColor: "#444",
-  },
-
-  rtitle: {
-    color: "#fff",
-    fontSize: 12,
-    fontFamily: "OpenSans-Bold",
-    width: "80%",
-    padding:2
-  },
-
-  notdiv: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
-    width: "100%",
-    height: "100%"
-  },
-  notimg: {
-    objectFit: "cover",
-    width: 80,
-    height: 80,
-    borderRadius: 100,
-    opacity: 0.6
-  },
-  nottext: {
-    color: "grey",
-    textAlign: "center",
-    fontSize: 14,
-    width: "75%",
-    marginTop: "5%",
-    fontFamily: "OpenSans"
-  },
-  btn: {
-    height: 50,
-    width: 140,
-    padding: 4,
-    textAlign: "center",
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "white",
-    color: "white",
-    borderRadius: 10,
-    position: "relative",
-    top: 20
-  },
-  btntext: {
-    fontSize: 12,
-    color: "#",
-    fontFamily: "OpenSans-Bold",
-    fontWeight: "600"
+  btnmove: {
+    marginTop: 10,
   },
   addButton: {
-    backgroundColor: '#FF6500', // Spotify green for a modern vibe
+    backgroundColor: '#FF6500',
     paddingVertical: 10,
     paddingHorizontal: 14,
     borderRadius: 30,
@@ -312,4 +215,52 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     letterSpacing: 1,
   },
-})
+  ratediv: {
+    flexDirection: "column",
+    alignItems: "flex-start",
+    width: "100%",
+    paddingTop: 20,
+  },
+  ratetext: {
+    color: "white",
+    fontSize: 18,
+    marginLeft: "2%",
+    textAlign: "left",
+    fontWeight: "800",
+    fontFamily: "OpenSans-Bold"
+  },
+  ratingdiv: {
+    flexDirection: "column",
+    gap: 16,
+    width: "100%",
+    marginTop: "4%",
+    alignSelf: "center"
+  },
+  singlediv: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#1a1a1a",
+    borderRadius: 16,
+    padding: 12,
+    borderWidth: 0.5,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  albumImg: {
+    width: 64,
+    height: 64,
+    borderRadius: 12,
+    marginRight: 12,
+    borderWidth: 2,
+    borderColor: "#444",
+  },
+  rtitle: {
+    color: "#fff",
+    fontSize: 12,
+    fontFamily: "OpenSans-Bold",
+    width: "75%",
+  },
+});

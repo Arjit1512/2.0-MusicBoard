@@ -146,6 +146,13 @@ const Track = () => {
         }
     }
 
+    const formatDuration = (duration) => {
+        const minutes = Math.floor(duration);
+        const seconds = Math.round((duration - minutes) * 60);
+        return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+    };
+
+
 
     // console.log('SONG: ', song)
 
@@ -173,12 +180,12 @@ const Track = () => {
                     {(no > 0) ? (
                         <View style={styles.rdiv}>
                             <View style={styles.rinsidediv}>
-                                <Entypo name='star-outlined' size={24} color='#1DB954' />
-                                <Text style={styles.rtext}>Total Ratings: {no}</Text>
+                                <Entypo name='star' size={24} color='#1DB954' />
+                                <Text style={styles.rtext}>Total Ratings:  <Text style={styles.bold}>{no}</Text></Text>
                             </View>
                             <View style={styles.rinsidediv}>
-                                <Entypo name='star-outlined' size={24} color='#1DB954' />
-                                <Text style={styles.rtext}>Rating: {rating}/5</Text>
+                                <Entypo name='star' size={24} color='#1DB954' />
+                                <Text style={styles.rtext}>Rating:  <Text style={styles.bold}>{rating}</Text>/5</Text>
                             </View>
                         </View>
                     ) : (
@@ -224,7 +231,7 @@ const Track = () => {
 
                     <View style={styles.songInfoContainer}>
                         <Text style={styles.songText}>Name: <Text style={styles.span}> {song?.name}</Text></Text>
-                        <Text style={styles.songText}>Duration: <Text style={styles.span}> {song?.duration}min</Text></Text>
+                        <Text style={styles.songText}>Duration: <Text style={styles.span}> {formatDuration(song?.duration)}sec</Text></Text>
                         <Text style={styles.songText}>Artist: <Text style={styles.span}> {song?.artistName}</Text></Text>
                         <Text style={styles.songText}>Recommended Level: <Text style={styles.span}> {Math.abs(song?.pop - 3)}%</Text></Text>
                         <Text style={styles.songText}>Explicit Lyrics: <Text style={styles.span}> {(song.exp === true) ? 'Yes' : 'No'}</Text></Text>
@@ -280,6 +287,9 @@ const styles = StyleSheet.create({
         fontFamily: "OpenSans-Bold",
         fontWeight: "700",
         letterSpacing: 0.8
+    },
+    bold: {
+        fontFamily: "OpenSans-Bold"
     },
     ta2: {
         color: "white",

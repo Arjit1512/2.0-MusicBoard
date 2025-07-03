@@ -26,31 +26,28 @@ const login = () => {
     })
 
     const pickImage = async () => {
-    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-    if (status !== 'granted') {
-        alert('Permission to access media library is required!');
-        return;
-    }
+        const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+        if (status !== 'granted') {
+            alert('Permission to access media library is required!');
+            return;
+        }
 
-    let result = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.Images, // ✅ back to working value
-        allowsEditing: true,
-        quality: 1,
-    });
+        let result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.Images, // ✅ back to working value
+            allowsEditing: true,
+            quality: 1,
+        });
 
-    if (!result.canceled) {
-        const compressed = await ImageManipulator.manipulateAsync(
-            result.assets[0].uri,
-            [{ resize: { width: 800 } }],
-            { compress: 0.7, format: ImageManipulator.SaveFormat.JPEG }
-        );
+        if (!result.canceled) {
+            const compressed = await ImageManipulator.manipulateAsync(
+                result.assets[0].uri,
+                [{ resize: { width: 800 } }],
+                { compress: 0.7, format: ImageManipulator.SaveFormat.JPEG }
+            );
 
-        setProfilePic({ uri: compressed.uri });
-    }
-};
-
-
-
+            setProfilePic({ uri: compressed.uri });
+        }
+    };
 
 
     const handleLogin = async () => {
@@ -59,11 +56,14 @@ const login = () => {
         const formdata = new FormData();
         formdata.append('username', username);
         formdata.append('password', password);
-        formdata.append('dp', {
-            uri: profilePic.uri,
-            name: 'profile.jpg',
-            type: 'image/jpeg',
-        });
+
+        if (profilePic) {
+            formdata.append('dp', {
+                uri: profilePic.uri,
+                name: 'profile.jpg',
+                type: 'image/jpeg',
+            })
+        }
 
         try {
             const response = await axios.post(`${API_URL}/register`, formdata, {

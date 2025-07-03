@@ -198,12 +198,12 @@ const Songs = () => {
                 {(no > 0) ? (
                     <View style={styles.rdiv}>
                         <View style={styles.rinsidediv}>
-                            <Entypo name='star-outlined' size={24} color='#FF6500' />
-                            <Text style={styles.rtext}>Total Ratings: {no}</Text>
+                            <Entypo name='star' size={24} color='#FF6500' />
+                            <Text style={styles.rtext}>Total Ratings: <Text style={styles.bold}>{no}</Text></Text>
                         </View>
                         <View style={styles.rinsidediv}>
-                            <Entypo name='star-outlined' size={24} color='#FF6500' />
-                            <Text style={styles.rtext}>Rating: {rating}/5</Text>
+                            <Entypo name='star' size={24} color='#FF6500' />
+                            <Text style={styles.rtext}>Rating:  <Text style={styles.bold}>{rating}</Text>/5</Text>
                         </View>
                     </View>
                 ) : (
@@ -289,6 +289,9 @@ const styles = StyleSheet.create({
         color: "white",
         borderRadius: 25,
         marginTop: "2%"
+    },
+    bold:{
+        fontFamily: "OpenSans-Bold"
     },
     btntext: {
         fontSize: 12,

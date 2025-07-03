@@ -177,11 +177,8 @@ const Profile = () => {
 
                 <View style={styles.heading}>
                     <Text style={styles.h1}>{user?.username}</Text>
-                    <Image
-                        source={user.dp ? { uri: user.dp } : require("../../assets/images/dp.png")}
-                        style={styles.img}
-                    />
                 </View>
+                <Image source={user.dp ? { uri: user.dp } : require("../../assets/images/dp.png")} style={styles.img} />
 
                 <View style={styles.greybox}>
                     <TouchableOpacity style={styles.flexcol} onPress={navigateToAll}>
@@ -224,7 +221,7 @@ const styles = StyleSheet.create({
     container: {
         backgroundColor: "#151515",
         height: "100%",
-        width:"100%",
+        width: "100%",
         display: "flex",
     },
     scrollContainer: {
@@ -246,9 +243,9 @@ const styles = StyleSheet.create({
         objectFit: "cover",
         width: 80,
         height: 80,
-        position: "relative",
-        top: "25%",
-        right: "35%",
+        position: "absolute",
+        top: "50%",
+        right: "75%",
         borderRadius: 100
     },
     greybox: {
@@ -257,7 +254,8 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         gap: 40,
         position: "relative",
-        left: "5%"
+        left: "3%",
+        top:"55%"
     },
     flexcol: {
         display: "flex",
@@ -274,7 +272,7 @@ const styles = StyleSheet.create({
         flexDirection: "column",
         alignItems: "left",
         position: "relative",
-        top: "2%",
+        top: "55%",
         width: "100%",
         paddingTop: 10
     },
