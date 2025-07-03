@@ -178,7 +178,7 @@ const Profile = () => {
                 <View style={styles.heading}>
                     <Text style={styles.h1}>{user?.username}</Text>
                 </View>
-                <Image source={user.dp ? { uri: user.dp } : require("../../assets/images/dp.png")} style={styles.img} />
+                <Image source={user?.dp ? { uri: user?.dp } : require("../../assets/images/dp.png")} style={styles.img} />
 
                 <View style={styles.greybox}>
                     <TouchableOpacity style={styles.flexcol} onPress={navigateToAll}>
@@ -231,13 +231,14 @@ const styles = StyleSheet.create({
     threedots: {
         position: "relative",
         left: "40%",
-        top: "3.5%",
+        top: "25%",
         width: "max-content"
     },
     h1: {
         color: "#fff",
         fontSize: 18,
         textAlign: "center",
+        marginTop:12
     },
     img: {
         objectFit: "cover",

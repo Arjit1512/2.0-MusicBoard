@@ -189,7 +189,7 @@ const SearchPage = () => {
             </View>
           )}
         </View>
-        <View>
+        <View style={styles.sp}>
           {searchPressed && (
             <View style={styles.div}>
               <TouchableOpacity onPress={() => handleClick('tracks')}>
@@ -307,17 +307,25 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     paddingBottom: "5%",
     position: 'relative',
-    left: "1%"
+    left: "1%",
+    top:"6%"
+  },
+  sp:{
+    position:'relative',
+    top:"2%"
   },
   sdiv: {
     display: "flex",
     flexDirection: "row",
     paddingBottom: "5%",
     position: 'relative',
-    left: "1%"
+    left: "1%",
+    top:"2%"
   },
   entiresearchdiv: {
-    marginLeft: 6
+    marginLeft: 6,position: 'relative',
+    left: "1%",
+    top:"2%"
   },
   bar: {
     borderWidth: 2,
@@ -388,7 +396,7 @@ const styles = StyleSheet.create({
     marginTop:"2%"
   },
   mainimg: {
-    width: 170,
+    width: 150,
     height: 120,
     borderRadius: 20,
     marginTop: "2%"
