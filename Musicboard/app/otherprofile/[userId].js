@@ -92,56 +92,56 @@ const otherprofile = () => {
 
 
   return (
-  <SafeAreaView style={styles.container}>
-    <StatusBar barStyle="light-content" backgroundColor="#151515" />
-    <ScrollView contentContainerStyle={styles.scrollContainer} showsVerticalScrollIndicator={false}>
-      <View style={styles.back}>
-        <TouchableOpacity onPress={() => router.back()}>
-          <AntDesign style={styles.back} name="left" size={24} color="white" />
-        </TouchableOpacity>
-      </View>
-
-      <View style={styles.heading}>
-        <Text style={styles.h1}>{user?.username}</Text>
-      </View>
-
-      <Image source={user.dp ? { uri: user.dp } : require("../../assets/images/dp.png")} style={styles.img} />
-
-      <View style={styles.greybox}>
-        <TouchableOpacity style={styles.flexcol}>
-          <Text style={styles.greytext}>{user?.reviews?.length || 0}</Text>
-          <Text style={styles.greytext}>Ratings</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.flexcol}>
-          <Text style={styles.greytext}>{user?.friends?.length || 0}</Text>
-          <Text style={styles.greytext}>Followers</Text>
-        </TouchableOpacity>
-      </View>
-
-      <View style={styles.btnmove}>
-        <TouchableOpacity style={styles.addButton} onPress={() => handleAddFriend(realUserId, userId)}>
-          <Text style={styles.addButtonText}>{isFriend ? 'Remove Friend' : 'Add Friend'}</Text>
-        </TouchableOpacity>
-      </View>
-
-      <View style={styles.ratediv}>
-        <Text style={styles.ratetext}>Recently Rated:</Text>
-        <View style={styles.ratingdiv}>
-          {Array.isArray(ratings) && ratings.map((rating, index) => (
-            <TouchableOpacity
-              key={index}
-              style={styles.singlediv}
-              onPress={() => (rating.type === 'album') ? router.push(`/album/${rating.spotifyId}`) : router.push(`/song/${rating.spotifyId}`)}
-            >
-              <Image style={styles.albumImg} source={{ uri: rating.img }} />
-              <Text style={styles.rtitle}>{rating.comment}</Text>
-            </TouchableOpacity>
-          ))}
+    <SafeAreaView style={styles.container}>
+      <StatusBar barStyle="light-content" backgroundColor="#151515" />
+      <ScrollView contentContainerStyle={styles.scrollContainer} showsVerticalScrollIndicator={false}>
+        <View style={styles.back}>
+          <TouchableOpacity onPress={() => router.back()}>
+            <AntDesign style={styles.back} name="left" size={24} color="white" />
+          </TouchableOpacity>
         </View>
-      </View>
-    </ScrollView>
-  </SafeAreaView>
-);
+
+        <View style={styles.heading}>
+          <Text style={styles.h1}>{user?.username}</Text>
+        </View>
+
+        <Image source={user.dp ? { uri: user.dp } : require("../../assets/images/dp.png")} style={styles.img} />
+
+        <View style={styles.greybox}>
+          <TouchableOpacity style={styles.flexcol}>
+            <Text style={styles.greytext}>{user?.reviews?.length || 0}</Text>
+            <Text style={styles.greytext}>Ratings</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.flexcol}>
+            <Text style={styles.greytext}>{user?.friends?.length || 0}</Text>
+            <Text style={styles.greytext}>Followers</Text>
+          </TouchableOpacity>
+        </View>
+
+        <View style={styles.btnmove}>
+          <TouchableOpacity style={styles.addButton} onPress={() => handleAddFriend(realUserId, userId)}>
+            <Text style={styles.addButtonText}>{isFriend ? 'Remove Friend' : 'Add Friend'}</Text>
+          </TouchableOpacity>
+        </View>
+
+        <View style={styles.ratediv}>
+          <Text style={styles.ratetext}>Recently Rated:</Text>
+          <View style={styles.ratingdiv}>
+            {Array.isArray(ratings) && ratings.map((rating, index) => (
+              <TouchableOpacity
+                key={index}
+                style={styles.singlediv}
+                onPress={() => (rating.type === 'album') ? router.push(`/album/${rating.spotifyId}`) : router.push(`/song/${rating.spotifyId}`)}
+              >
+                <Image style={styles.albumImg} source={{ uri: rating.img }} />
+                <Text style={styles.rtitle}>{rating.comment}</Text>
+              </TouchableOpacity>
+            ))}
+          </View>
+        </View>
+      </ScrollView>
+    </SafeAreaView>
+  );
 }
 
 export default otherprofile
@@ -159,9 +159,9 @@ const styles = StyleSheet.create({
   },
   back: {
     position: "absolute",
-    left: "4%",
+    left: "6%",
     top: "6%",
-    zIndex: 10
+    zIndex: 10,
   },
   h1: {
     color: "#fff",
@@ -182,7 +182,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     gap: 40,
     marginTop: "15%",
-    marginLeft:"3%",
+    marginLeft: "3%",
     marginBottom: 10,
   },
   flexcol: {

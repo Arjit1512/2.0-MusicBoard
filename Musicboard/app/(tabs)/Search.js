@@ -157,7 +157,7 @@ const SearchPage = () => {
     }
   }
 
-  const handleUpgrade = async() => {
+  const handleUpgrade = async () => {
     try {
       alert("Sorry, songs will be added soon.");
     } catch (error) {
@@ -306,13 +306,13 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     paddingBottom: "5%",
-    position: 'relative',
     left: "1%",
-    top:"6%"
+    position: 'relative',
+    top: Platform.OS == 'android' ? '8%' : '0%'
   },
-  sp:{
-    position:'relative',
-    top:"2%"
+  sp: {
+    position: 'relative',
+    top: Platform.OS == 'android' ? '2%' : '2%'
   },
   sdiv: {
     display: "flex",
@@ -320,12 +320,27 @@ const styles = StyleSheet.create({
     paddingBottom: "5%",
     position: 'relative',
     left: "1%",
-    top:"2%"
+    top: Platform.OS == 'android' ? '3%' : '0%'
   },
   entiresearchdiv: {
-    marginLeft: 6,position: 'relative',
+    marginLeft: 6,
+    position: 'relative',
     left: "1%",
-    top:"2%"
+    top: Platform.OS == 'android' ? '4%' : '2%',
+  },
+  div: {
+    display: "flex",
+    flexDirection: "row",
+    backgroundColor: "",
+    position: 'relative',
+    top: Platform.OS == 'android' ? '0%' : '0%',
+    height: 25,
+    bottom: 10,
+    zIndex: 100,
+    alignItems: "center",
+    justifyContent: 'center',
+    width: "100%",
+    gap: 100
   },
   bar: {
     borderWidth: 2,
@@ -334,7 +349,7 @@ const styles = StyleSheet.create({
     width: 310,
     backgroundColor: "black",
     height: Platform.OS === 'ios' ? 30 : 38,
-    borderRadius: 10
+    borderRadius: 10,
   },
   cancel: {
     marginLeft: 5,
@@ -393,7 +408,7 @@ const styles = StyleSheet.create({
     gap: 15,
     paddingBottom: "5%",
     marginLeft: 12,
-    marginTop:"2%"
+    marginTop: "2%"
   },
   mainimg: {
     width: 150,
@@ -402,19 +417,7 @@ const styles = StyleSheet.create({
     marginTop: "2%"
   },
   //search filters
-  div: {
-    display: "flex",
-    flexDirection: "row",
-    backgroundColor: "",
-    position: 'relative',
-    height: 25,
-    bottom: 10,
-    zIndex: 100,
-    alignItems: "center",
-    justifyContent: 'center',
-    width: "100%",
-    gap: 100
-  },
+
   bxContainer: {
     paddingBottom: 5,
   },

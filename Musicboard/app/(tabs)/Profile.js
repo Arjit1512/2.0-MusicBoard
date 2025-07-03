@@ -231,7 +231,7 @@ const styles = StyleSheet.create({
     threedots: {
         position: "relative",
         left: "40%",
-        top: "25%",
+        top: "20%",
         width: "max-content"
     },
     h1: {
@@ -245,7 +245,7 @@ const styles = StyleSheet.create({
         width: 80,
         height: 80,
         position: "absolute",
-        top: "50%",
+        top: "35%",
         right: "75%",
         borderRadius: 100
     },
@@ -256,7 +256,7 @@ const styles = StyleSheet.create({
         gap: 40,
         position: "relative",
         left: "3%",
-        top:"55%"
+        top:"35%"
     },
     flexcol: {
         display: "flex",
@@ -273,7 +273,7 @@ const styles = StyleSheet.create({
         flexDirection: "column",
         alignItems: "left",
         position: "relative",
-        top: "55%",
+        top: "35%",
         width: "100%",
         paddingTop: 10
     },

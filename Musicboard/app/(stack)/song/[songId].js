@@ -1,4 +1,4 @@
-import { StyleSheet, StatusBar, Text, TextInput, View, SafeAreaView, Image, ScrollView, TouchableOpacity } from 'react-native'
+import { StyleSheet, StatusBar, Text, TextInput, View, SafeAreaView, Image, ScrollView, TouchableOpacity, Platform } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import axios from 'axios';
 import { useFonts } from 'expo-font';
@@ -264,10 +264,13 @@ const styles = StyleSheet.create({
         width: 40,
         alignItems: 'center',
         justifyContent: 'center',
+        position: 'relative',
+        top: Platform.OS == 'android' ? '5%' : '0%',
+        left: Platform.OS == 'android' ? '4%' : '0%',
     },
     movediv: {
         position: "relative",
-        bottom: 30
+        bottom: 10
     },
     btn: {
         height: 50,

@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Image, ScrollView, StatusBar, Linking, TouchableOpacity, Dimensions } from 'react-native'
+import { StyleSheet, Text, View, Image, ScrollView, StatusBar, Linking, TouchableOpacity, Dimensions, Platform } from 'react-native'
 import React, { useState } from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { router, useFocusEffect } from 'expo-router';
@@ -169,7 +169,8 @@ const styles = StyleSheet.create({
         zIndex: 10,
         borderRadius: 4,
         height: 34,
-        width: 24
+        width: 24,
+        left: Platform.OS == 'android' ? '3%' : '0%',
     },
     dp: {
         width: 170,
@@ -250,7 +251,7 @@ const styles = StyleSheet.create({
         fontFamily: "OpenSans-Bold",
         textTransform: "uppercase",
         fontSize: 18,
-        color:"#E2DFD0",
+        color: "#E2DFD0",
         width: "100%",
         textAlign: "center"
     },

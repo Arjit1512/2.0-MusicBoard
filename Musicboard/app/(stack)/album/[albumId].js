@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, SafeAreaView, ScrollView, StatusBar, Image, TouchableOpacity } from 'react-native'
+import { StyleSheet, Text, View, SafeAreaView, ScrollView, StatusBar, Image, TouchableOpacity, Platform } from 'react-native'
 import React, { useState } from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
@@ -223,7 +223,7 @@ const Songs = () => {
                                 <View style={styles.row} key={index}>
                                     {/* <Image style={styles.dp} source={{ uri: item.img }}></Image> */}
 
-                                    <View style={[styles.col1,{paddingHorizontal:0}]} key={index}>
+                                    <View style={[styles.col1, { paddingHorizontal: 0 }]} key={index}>
                                         <View style={styles.stars}>
                                             {[...Array(5)].map((_, i) => (
                                                 <FontAwesome
@@ -276,7 +276,8 @@ const styles = StyleSheet.create({
         zIndex: 10,
         borderRadius: 4,
         height: 34,
-        width: 24
+        width: 24,
+        left: Platform.OS == 'android' ? '4%' : '0%',
     },
     btn: {
         height: 50,
@@ -290,7 +291,7 @@ const styles = StyleSheet.create({
         borderRadius: 25,
         marginTop: "2%"
     },
-    bold:{
+    bold: {
         fontFamily: "OpenSans-Bold"
     },
     btntext: {
@@ -313,7 +314,9 @@ const styles = StyleSheet.create({
         display: "flex",
         width: "100%",
         alignItems: "center",
-        paddingBottom: 0
+        paddingBottom: 0,
+        position: 'relative',
+        top: Platform.OS == 'android' ? '4%' : '0%',
     },
     ta: {
         color: "white",
@@ -342,7 +345,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#151515',
         width: "100%",
         padding: 8,
-        marginTop:-12
+        marginTop: -12
     },
     eachcol: {
         backgroundColor: "black",
@@ -535,9 +538,9 @@ const styles = StyleSheet.create({
     nrtext: {
         color: "grey",
         fontSize: 13,
-        position:"relative",
-        bottom:6,
-        alignSelf:"center",
+        position: "relative",
+        bottom: 6,
+        alignSelf: "center",
         fontFamily: "OpenSans-Italic"
     },
     //reviews section
@@ -570,7 +573,7 @@ const styles = StyleSheet.create({
         display: "flex",
         flexDirection: "column",
         marginLeft: 0,
-        paddingHorizontal:12,
+        paddingHorizontal: 12,
         justifyContent: "center",
         flex: 1,
     },

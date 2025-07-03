@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, SafeAreaView, ScrollView, StatusBar, Image, TouchableOpacity, Linking } from 'react-native'
+import { StyleSheet, Text, View, SafeAreaView, ScrollView, StatusBar, Image, TouchableOpacity, Linking, Platform } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import { Pressable, TouchableWithoutFeedback } from 'react-native';
 import { FontAwesome } from 'react-native-vector-icons';
@@ -267,8 +267,10 @@ const styles = StyleSheet.create({
         textAlign: "left",
         fontSize: 22,
         marginLeft: 12,
-        marginVertical: 15,
+        marginVertical: 20,
         letterSpacing: 1,
+        position:'relative',
+        top:Platform.OS=='android' ? '0.5%' : '0%'
     },
     span: {
         fontSize: 10,
