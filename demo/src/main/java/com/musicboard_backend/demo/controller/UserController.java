@@ -58,7 +58,7 @@ public class UserController {
     public ResponseEntity<?> register(
             @RequestParam("username") String username,
             @RequestParam("password") String password,
-            @RequestParam("dp") MultipartFile dp) {
+            @RequestParam(value = "dp", required = false) MultipartFile dp) {
 
         Map<String, Object> response = new HashMap<>();
         if (username == null || password == null || username.isEmpty() || password.isEmpty()) {
@@ -75,12 +75,14 @@ public class UserController {
 
         User newuser = new User();
 
-        String dpUrl = "";
-        try {
-            dpUrl = s3Service.uploadFile(dp);
-        } catch (IOException e) {
-            response.put("Message", "DP upload failed");
-            return ResponseEntity.status(500).body(response);
+        String dpUrl = null;
+        if (dp != null && !dp.isEmpty()) {
+            try {
+                dpUrl = s3Service.uploadFile(dp);
+            } catch (IOException e) {
+                response.put("Message", "DP upload failed");
+                return ResponseEntity.status(500).body(response);
+            }
         }
 
         newuser.setUsername(username);
