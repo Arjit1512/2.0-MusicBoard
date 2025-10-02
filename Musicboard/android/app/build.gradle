@@ -1,0 +1,45 @@
+apply plugin: "com.android.application"
+
+android {
+    compileSdkVersion 33
+
+    defaultConfig {
+        applicationId "com.arjit1512.Musicboard"  // from your expo config
+        minSdkVersion 21
+        targetSdkVersion 33
+        versionCode 1
+        versionName "1.0.0"
+    }
+
+    signingConfigs {
+        release {
+            storeFile file("my-release-key.jks") // your keystore file in android/app/
+            storePassword project.hasProperty('MYAPP_UPLOAD_STORE_PASSWORD') ? MYAPP_UPLOAD_STORE_PASSWORD : "your_keystore_password"
+            keyAlias project.hasProperty('MYAPP_UPLOAD_KEY_ALIAS') ? MYAPP_UPLOAD_KEY_ALIAS : "my-key-alias"
+            keyPassword project.hasProperty('MYAPP_UPLOAD_KEY_PASSWORD') ? MYAPP_UPLOAD_KEY_PASSWORD : "your_key_password"
+        }
+    }
+
+    buildTypes {
+        release {
+            signingConfig signingConfigs.release
+            minifyEnabled false
+            shrinkResources false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            signingConfig signingConfigs.release // optional if you want to test signed debug builds
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: "libs", include: ["*.jar"])
+    implementation "com.facebook.react:react-native:+"
+}
+
+// Optional: enable Java 11 features if needed
+compileOptions {
+    sourceCompatibility JavaVersion.VERSION_11
+    targetCompatibility JavaVersion.VERSION_11
+}
