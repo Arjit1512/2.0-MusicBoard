@@ -228,24 +228,26 @@ const styles = StyleSheet.create({
         paddingBottom: 40,
         alignItems: "center",
     },
+    heading:{
+        marginTop:50
+    },
     threedots: {
         position: "absolute",
         left: "85%",
-        top: "5%",
+        top:50,
         width: "max-content"
     },
     h1: {
         color: "#fff",
-        fontSize: 18,
+        fontSize: 15,
         textAlign: "center",
-        marginTop:12
     },
     img: {
         objectFit: "cover",
         width: 80,
         height: 80,
         position: "absolute",
-        top: "15%",
+        top: 100,
         right: "75%",
         borderRadius: 100
     },
@@ -256,7 +258,7 @@ const styles = StyleSheet.create({
         gap: 40,
         position: "absolute",
         left: "35%",
-        top:"35%"
+        top:160,
     },
     flexcol: {
         display: "flex",
@@ -272,9 +274,9 @@ const styles = StyleSheet.create({
         display: "flex",
         flexDirection: "column",
         alignItems: "left",
-        position: "relative",
-        top: "35%",
-        width: "100%",
+        position: "absolute",
+        top:200,
+        width: "95%",
         paddingTop: 10
     },
     ratetext: {

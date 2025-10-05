@@ -266,7 +266,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         position: 'relative',
         top: Platform.OS == 'android' ? '5%' : '0%',
-        left: Platform.OS == 'android' ? '4%' : '0%',
+        left: Platform.OS == 'android' ? '0%' : '0%',
     },
     movediv: {
         position: "relative",

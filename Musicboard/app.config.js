@@ -13,25 +13,22 @@ export default {
     },
     android: {
       adaptiveIcon: {
-        foregroundImage: "./assets/images/logo.png",
+        foregroundImage: "./assets/images/logo1.png",
         backgroundColor: "#ffffff"
       },
-      package: "com.arjit1512.Musicboard",
-      permissions: [
-        "AD_ID"
-      ]
+      package: "com.arjit1512.Musicboard"
     },
     web: {
       bundler: "metro",
       output: "static",
-      favicon: "./assets/images/logo.png"
+      favicon: "./assets/images/logo1.png"
     },
     plugins: [
       "expo-router",
       [
         "expo-splash-screen",
         {
-          image: "./assets/images/logo.png",
+          image: "./assets/images/logo1.png",
           imageWidth: 200,
           resizeMode: "contain",
           backgroundColor: "#ffffff"

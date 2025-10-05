@@ -182,6 +182,7 @@ const styles = StyleSheet.create({
     wholecol: {
         display: "flex",
         flexDirection: "column",
+        marginTop:10
     },
     each: {
         borderRadius: 12,

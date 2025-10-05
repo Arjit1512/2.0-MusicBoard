@@ -135,8 +135,9 @@ const styles = StyleSheet.create({
     },
     back: {
         position: "absolute",
-        left: "2%",
-        top: "1.5%",
+        position: "absolute",
+        left:10,
+        top:10,
         zIndex: 10
     },
     ta: {

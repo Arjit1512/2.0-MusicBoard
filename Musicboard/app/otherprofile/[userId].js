@@ -159,13 +159,13 @@ const styles = StyleSheet.create({
   },
   back: {
     position: "absolute",
-    left: "6%",
-    top: "6%",
+    left: 15,
+    top: 12,
     zIndex: 10,
   },
   h1: {
     color: "#fff",
-    fontSize: 18,
+    fontSize: 15,
     textAlign: "center",
     marginTop: 20,
   },
@@ -181,9 +181,9 @@ const styles = StyleSheet.create({
   greybox: {
     flexDirection: "row",
     gap: 40,
-    marginTop: "15%",
-    marginLeft: "3%",
-    marginBottom: 10,
+    position: "absolute",
+    top:90,
+    left:135
   },
   flexcol: {
     flexDirection: "column",
@@ -193,7 +193,8 @@ const styles = StyleSheet.create({
     color: "grey"
   },
   btnmove: {
-    marginTop: 10,
+    position: "absolute",
+    top:150,
   },
   addButton: {
     backgroundColor: '#FF6500',
@@ -218,8 +219,10 @@ const styles = StyleSheet.create({
   ratediv: {
     flexDirection: "column",
     alignItems: "flex-start",
-    width: "100%",
+    width: "95%",
     paddingTop: 20,
+    position: "absolute",
+    top:200,
   },
   ratetext: {
     color: "white",
@@ -263,4 +266,5 @@ const styles = StyleSheet.create({
     fontFamily: "OpenSans-Bold",
     width: "75%",
   },
+  
 });

@@ -70,8 +70,8 @@ const styles = StyleSheet.create({
   },
   back: {
     position: "absolute",
-    left: "4%",
-    top: "8%",
+    left:15,
+    top:20,
     zIndex: 10
   },
   container: {
