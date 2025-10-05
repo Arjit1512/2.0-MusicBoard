@@ -229,9 +229,9 @@ const styles = StyleSheet.create({
         alignItems: "center",
     },
     threedots: {
-        position: "relative",
-        left: "40%",
-        top: "20%",
+        position: "absolute",
+        left: "85%",
+        top: "5%",
         width: "max-content"
     },
     h1: {
@@ -245,7 +245,7 @@ const styles = StyleSheet.create({
         width: 80,
         height: 80,
         position: "absolute",
-        top: "35%",
+        top: "15%",
         right: "75%",
         borderRadius: 100
     },
@@ -254,8 +254,8 @@ const styles = StyleSheet.create({
         display: "flex",
         flexDirection: "row",
         gap: 40,
-        position: "relative",
-        left: "3%",
+        position: "absolute",
+        left: "35%",
         top:"35%"
     },
     flexcol: {

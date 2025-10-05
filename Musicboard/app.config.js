@@ -16,7 +16,10 @@ export default {
         foregroundImage: "./assets/images/logo.png",
         backgroundColor: "#ffffff"
       },
-      package: "com.arjit1512.Musicboard"
+      package: "com.arjit1512.Musicboard",
+      permissions: [
+        "com.google.android.gms.permission.AD_ID"
+      ]
     },
     web: {
       bundler: "metro",
