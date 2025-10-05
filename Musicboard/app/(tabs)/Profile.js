@@ -171,7 +171,7 @@ const Profile = () => {
             <ScrollView contentContainerStyle={styles.scrollContainer}>
                 <View style={styles.threedots}>
                     <TouchableOpacity onPress={() => router.push("/more")}>
-                        <AntDesign name="ellipsis1" size={24} color="white" />
+                        <AntDesign name="ellipsis" size={24} color="white" />
                     </TouchableOpacity>
                 </View>
 

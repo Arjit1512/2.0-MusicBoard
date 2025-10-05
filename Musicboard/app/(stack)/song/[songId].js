@@ -167,7 +167,7 @@ const Track = () => {
                 <StatusBar barStyle="light-content" backgroundColor="#151515" />
                 <View style={styles.back}>
                     <TouchableOpacity onPress={() => router.back()}>
-                        <AntDesign name="arrowleft" size={32} color="white" />
+                        <AntDesign name="arrow-left" size={32} color="white" />
                     </TouchableOpacity>
                 </View>
                 <View style={styles.movediv}>

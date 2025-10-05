@@ -39,7 +39,7 @@ const more = () => {
                 <StatusBar barStyle="light-content" backgroundColor="#151515" />
                 <View style={styles.back}>
                     <TouchableOpacity onPress={() => router.back()}>
-                        <AntDesign style={styles.back} name="arrowleft" size={24} color="white" />
+                        <AntDesign style={styles.back} name="arrow-left" size={24} color="white" />
                     </TouchableOpacity>
                 </View>
                 <View style={styles.maindiv}>
