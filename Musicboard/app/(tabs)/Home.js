@@ -157,7 +157,7 @@ const Home = () => {
                                         </View>
                                     </View>
                                 </TouchableOpacity>
-                                {(index !== 0 && index % 20 == 0) && (
+                                {(index !== 0 && index % 30 == 0) && (
                                     <TouchableOpacity onPress={() => Linking.openURL("https://truehood.shop")}>
                                         <Image source={require("../../assets/images/th.png")} style={styles.ad} />
                                     </TouchableOpacity>

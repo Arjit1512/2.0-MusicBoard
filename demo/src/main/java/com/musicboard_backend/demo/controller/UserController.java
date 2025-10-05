@@ -108,7 +108,8 @@ public class UserController {
             return ResponseEntity.status(200).body("User doesn't exists!");
         }
 
-        if (!existingUser.getPassword().equals(user.getPassword())) {
+        // Use PasswordEncoder to match raw password with encoded password
+        if (!passwordEncoder.matches(user.getPassword(), existingUser.getPassword())) {
             return ResponseEntity.status(200).body("Incorrect password!");
         }
 
