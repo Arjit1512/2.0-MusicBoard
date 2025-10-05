@@ -1,45 +1,71 @@
-apply plugin: "com.android.application"
+// android/app/build.gradle
+
+plugins {
+    id("com.android.application")
+    id("org.jetbrains.kotlin.android")
+    id("com.facebook.react")
+}
+
+def enableProguardInReleaseBuilds = false
+def jscFlavor = 'io.github.react-native-community:jsc-android:2026004.+'
+def hermesEnabled = false
+
+react {
+    autolinkLibrariesWithApp()
+}
 
 android {
-    compileSdkVersion 33
+    namespace "com.arjit1512.Musicboard"
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
+    ndkVersion rootProject.ext.ndkVersion
 
     defaultConfig {
-        applicationId "com.arjit1512.Musicboard"  // from your expo config
-        minSdkVersion 21
-        targetSdkVersion 33
+        applicationId "com.arjit1512.Musicboard"
+        minSdkVersion 24
+        targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0.0"
     }
 
     signingConfigs {
+        debug {
+            storeFile file('debug.keystore')
+            storePassword 'android'
+            keyAlias 'androiddebugkey'
+            keyPassword 'android'
+        }
         release {
-            storeFile file("my-release-key.jks") // your keystore file in android/app/
-            storePassword project.hasProperty('MYAPP_UPLOAD_STORE_PASSWORD') ? MYAPP_UPLOAD_STORE_PASSWORD : "your_keystore_password"
-            keyAlias project.hasProperty('MYAPP_UPLOAD_KEY_ALIAS') ? MYAPP_UPLOAD_KEY_ALIAS : "my-key-alias"
-            keyPassword project.hasProperty('MYAPP_UPLOAD_KEY_PASSWORD') ? MYAPP_UPLOAD_KEY_PASSWORD : "your_key_password"
+            // Keystore for release signing
+            storeFile file("my-release-key.jks")
+            storePassword project.hasProperty("MYAPP_UPLOAD_STORE_PASSWORD") ? MYAPP_UPLOAD_STORE_PASSWORD : ""
+            keyAlias project.hasProperty("MYAPP_UPLOAD_KEY_ALIAS") ? MYAPP_UPLOAD_KEY_ALIAS : ""
+            keyPassword project.hasProperty("MYAPP_UPLOAD_KEY_PASSWORD") ? MYAPP_UPLOAD_KEY_PASSWORD : ""
         }
     }
 
     buildTypes {
+        debug {
+            signingConfig signingConfigs.debug
+        }
         release {
             signingConfig signingConfigs.release
-            minifyEnabled false
-            shrinkResources false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            minifyEnabled enableProguardInReleaseBuilds
+            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
-        debug {
-            signingConfig signingConfigs.release // optional if you want to test signed debug builds
-        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
     }
 }
 
 dependencies {
-    implementation fileTree(dir: "libs", include: ["*.jar"])
-    implementation "com.facebook.react:react-native:+"
-}
-
-// Optional: enable Java 11 features if needed
-compileOptions {
-    sourceCompatibility JavaVersion.VERSION_11
-    targetCompatibility JavaVersion.VERSION_11
+    implementation("com.facebook.react:react-android")
+    if (hermesEnabled.toBoolean()) {
+        implementation("com.facebook.react:hermes-android")
+    } else {
+        implementation jscFlavor
+    }
 }

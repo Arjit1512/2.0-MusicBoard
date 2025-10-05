@@ -1,0 +1,30 @@
+buildscript {
+    ext {
+        buildToolsVersion = "35.0.0" // you can also use 36.0.0
+        minSdkVersion = 24           // you already updated this
+        compileSdkVersion = 36       // increase from 33
+        targetSdkVersion = 36        // match compileSdkVersion
+        kotlinVersion = "1.9.10"
+        ndkVersion = "25.2.9519653"
+    }
+    repositories {
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        classpath("com.android.tools.build:gradle:8.1.2")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion")
+        classpath("com.facebook.react:react-native-gradle-plugin") // ✅ React Native Gradle plugin
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
