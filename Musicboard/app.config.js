@@ -18,7 +18,7 @@ export default {
       },
       package: "com.arjit1512.Musicboard",
       permissions: [
-        "com.google.android.gms.permission.AD_ID"
+        "AD_ID"
       ]
     },
     web: {
